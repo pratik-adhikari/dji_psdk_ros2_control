@@ -23,12 +23,6 @@ GeoGimbal is a ROS 2 package designed to precisely control the gimbal and camera
    - [Phase 5: Documentation and Deployment](#phase-5-documentation-and-deployment)
 5. [Code Structure](#code-structure)
 6. [Parameters and Configuration](#parameters-and-configuration)
-7. [Getting Started](#getting-started)
-8. [Usage](#usage)
-9. [Challenges and Solutions](#challenges-and-solutions)
-10. [Contributing](#contributing)
-11. [License](#license)
-12. [Contact Information](#contact-information)
 
 ---
 
