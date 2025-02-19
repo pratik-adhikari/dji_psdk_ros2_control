@@ -1,0 +1,11 @@
+/**:
+  ros__parameters:
+    # Target position in UTM 32N (EPSG:25832)
+    target_utm_easting: 500000.0
+    target_utm_northing: 5500000.0
+    target_altitude: 100.0
+
+    # RTK origin position in UTM 32N (EPSG:25832)
+    rtk_origin_easting: 499000.0
+    rtk_origin_northing: 5499000.0
+    rtk_origin_altitude: 95.0

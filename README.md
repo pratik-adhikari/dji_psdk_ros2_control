@@ -109,38 +109,33 @@ GeoGimbal consists of three primary components:
 
 ```plaintext
 geogimbal/
-├── include/
-│   └── geogimbal/
-│       ├── controller.hpp             # Abstract base class for controllers
-│       ├── pid_controller.hpp         # PID controller implementation
-│       ├── lqr_controller.hpp         # LQR controller implementation
-│       ├── predictive_controller.hpp  # Predictive controller implementation
-│       ├── system_identification.hpp  # System identification and calibration logic
-│       ├── transformations.hpp        # Coordinate transformation utilities
-│       ├── psdk_interface.hpp         # Interface for psdk_ros2 communication
-│       ├── parameters.hpp             # Parameter handling
-├── src/
-│   ├── controllers/
-│   │   ├── pid_controller.cpp         # PID controller code
-│   │   ├── lqr_controller.cpp         # LQR controller code
-│   │   ├── predictive_controller.cpp  # Predictive controller code
-│   ├── system_identification.cpp      # System identification implementation
-│   ├── transformations.cpp            # Coordinate transformation code
-│   ├── psdk_interface.cpp             # psdk_ros2 communication implementation
-│   ├── main.cpp                       # Entry point for initializing nodes
-├── launch/
-│   └── geogimbal.launch.py            # Launch file for starting all nodes
-├── config/
-│   ├── parameters.yaml                # YAML file for configurable parameters
-├── data/
-│   ├── calibration_data/              # Stored calibration datasets
-│   ├── logs/                          # Data logs from tests and runs
+├── geogimbal/
+│   ├── __init__.py                      # Indicates that this directory is a Python package
+│   ├── controller.py                    # Abstract base class for controllers
+│   ├── pid_controller.py                # PID controller implementation
+│   ├── lqr_controller.py                # LQR controller implementation
+│   ├── system_identification.py         # System identification and calibration logic
+│   ├── transformations.py               # Coordinate transformation utilities
+│   ├── psdk_interface.py                # Interface for psdk_ros2 communication
+│   ├── parameters.py                    # Parameter handling
 ├── scripts/
-│   ├── data_analysis.py               # Scripts for analyzing logged data
-│   ├── calibration_tool.py            # Tool for calibrating and updating parameters
-├── CMakeLists.txt                     # Build instructions
-├── package.xml                        # ROS 2 package metadata
-├── README.md                          # Project documentation
+│   ├── geo_gimbal_control.py            # Main script for gimbal control
+│   ├── calibration_node.py              # Script for calibration routines
+│   ├── data_analysis.py                 # Scripts for analyzing logged data
+│   ├── calibration_tool.py              # Tool for calibrating and updating parameters
+├── launch/
+│   ├── geo_gimbal_control.launch.py     # Launch file for gimbal control node
+│   ├── calibration.launch.py            # Launch file for calibration node
+├── config/
+│   ├── parameters.yaml                  # YAML file for configurable parameters
+│   ├── calibration_parameters.yaml      # Parameters specific to calibration
+├── data/
+│   ├── calibration_data/                # Stored calibration datasets
+│   ├── logs/                            # Data logs from tests and runs
+├── setup.py                             # Build instructions for Python package
+├── package.xml                          # ROS 2 package metadata
+├── README.md                            # Project documentation
+
 ```
 ---
 
