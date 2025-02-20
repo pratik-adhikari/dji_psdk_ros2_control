@@ -1,7 +1,8 @@
 # GeoGimbal
 
-GeoGimbal is a ROS 2 package designed to precisely control the gimbal and camera of a DJI UAV, enabling the capture of geo-specific images. The project focuses on creating a modular structure that separates gimbal control logic and system identification from DJI-specific communication, making it adaptable for other UAV platforms equipped with reliable positioning sensors like RTK-GNSS.
+GeoGimbal is a ROS 2 package intended to control the gimbal of a UAV, enabling the capture of geo-specific images (For implementation, DJI Matrice 300 and DJI PayloadSDK being used). The project focuses on creating a modular structure that separates system identification & control logic for gimbal (from DJI-specific communication), preferabley to make it adaptable for other UAV platforms equipped with reliable positioning sensors like RTK-GNSS.
 
+(This project assumes the gimbal control a solved problem, and targets to model the system for RTK-GNSS to calculate the instantanious gimbal orientation)
 ---
 
 ## Table of Contents
