@@ -1,0 +1,113 @@
+# transform_config.yaml
+
+dh_parameters:
+
+  # 1) RTK -> UAV offset (example:  no offset, or put a=0.3 if needed)
+  - joint_name: "RTK_to_UAV_offset"
+    a: 0.0
+    alpha: 0.0
+    d: 0.0
+    theta: 0.0
+
+  # 2) UAV_Center_to_IMU_Z (Z revolve => yaw)
+  #    alpha=0, a=0 => revolve about current Z
+  - joint_name: "UAV_Center_to_IMU_Z"
+    a: 0.0
+    alpha: 0.0
+    d: 0.0
+    theta: 0.0
+
+  # 3) IMU_Z_to_IMU_Y ( revolve about Y => pitch ), alpha=-90
+  - joint_name: "IMU_Z_to_IMU_Y"
+    a: 0.0
+    alpha: -90.0
+    d: 0.0
+    theta: 0.0
+
+  # 4) IMU_Y_to_IMU_X ( revolve about X => roll ), alpha=+90
+  - joint_name: "IMU_Y_to_IMU_X"
+    a: 0.0
+    alpha: 90.0
+    d: 0.0
+    theta: 0.0
+
+  # 5) IMU_X_to_Gimbal_offset (some fixed link offset)
+  - joint_name: "IMU_X_to_Gimbal_offset"
+    a: 0.0
+    alpha: 0.0
+    d: 0.0
+    theta: 0.0
+
+  # 6) Gimbal_offset_to_Gimbal_Yaw ( revolve about Z for gimbal yaw )
+  - joint_name: "Gimbal_offset_to_Gimbal_Yaw"
+    a: 0.0
+    alpha: 0.0
+    d: 0.0
+    theta: 0.0
+
+  # 7) Gimbal_Yaw_to_Gimbal_Roll ( revolve about Y or X? 
+  #    Suppose revolve about X => alpha=+90 or revolve about Y => alpha=-90
+  #    We'll do alpha=-90 for a tilt axis 
+  - joint_name: "Gimbal_Yaw_to_Gimbal_Roll"
+    a: 0.0
+    alpha: -90.0
+    d: 0.0
+    theta: 0.0
+
+  # 8) Gimbal_Roll_to_Gimbal_Pitch ( revolve about X or Y again? 
+  #    Suppose revolve about X => alpha=+90 
+  - joint_name: "Gimbal_Roll_to_Gimbal_Pitch"
+    a: 0.0
+    alpha: 90.0
+    d: 0.0
+    theta: 0.0
+
+
+
+
+# # transform_config.yaml
+# # ----------------------------
+# # Denavit–Hartenberg (DH) Parameters (modelling the system)
+# # ----------------------------
+# dh_parameters:
+#   - joint_name: "RTK_to_UAV_Center"
+#     a: 0.0
+#     alpha: 0.0
+#     d: 0.0
+#     theta: 0.0
+
+#   - joint_name: "UAV_Center_to_IMU_Z"
+#     a: a1
+#     alpha: 0.0
+#     d: 0.0
+#     theta: imu_theta_yaw
+
+#   - joint_name: "IMU_Z_to_IMU_Y"
+#     a: 0.0
+#     alpha: -90.0
+#     d: 0.0
+#     theta: imu_theta_pitch + 90
+
+#   - joint_name: "IMU_Y_to_IMU_X"
+#     a: 0.0
+#     alpha: 90.0
+#     d: 0.0
+#     theta: imu_theta_roll + 90
+
+#   - joint_name: "IMU_X_to_Gimbal_Yaw"
+#     a: 163.5
+#     alpha: 270.0   # (180 + 90)
+#     d: -62
+#     theta: yaw_angle + 30.3 - 90
+
+#   - joint_name: "Gimbal_Yaw_to_Gimbal_Roll"
+#     a: 0.0
+#     alpha: -90.0
+#     d: 81.4
+#     theta: roll_angle + 120.3
+
+#   - joint_name: "Gimbal_Roll_to_Gimbal_Pitch"
+#     a: 0.0
+#     alpha: 90.0
+#     d: 20.12
+#     theta: pitch_angle - 90

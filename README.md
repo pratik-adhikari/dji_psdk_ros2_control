@@ -3,10 +3,13 @@
 GeoGimbal is a ROS 2 package intended to control the gimbal of a UAV, enabling the capture of geo-specific images (For implementation, DJI Matrice 300 and DJI PayloadSDK being used). The project focuses on creating a modular structure that separates system identification & control logic for gimbal (from DJI-specific communication), preferabley to make it adaptable for other UAV platforms equipped with reliable positioning sensors like RTK-GNSS.
 
 (This project assumes the gimbal control a solved problem, and targets to model the system for RTK-GNSS to calculate the instantanious gimbal orientation)
+
+Capturing high-resolution images that are precisely aligned with specific geographic coordinates is crucial for applications such as environmental monitoring, infrastructure inspection, and scientific data collection. GeoGimbal provides a robust solution for controlling a UAV's gimbal and camera to achieve this precision.
+
+
 ---
-
-## Table of Contents
-
+<!-- 
+## Contents
 1. [Introduction](#introduction)
 2. [Project Overview](#project-overview)
    - [Why Geo-Specific Images?](#why-geo-specific-images)
@@ -23,63 +26,18 @@ GeoGimbal is a ROS 2 package intended to control the gimbal of a UAV, enabling t
    - [Phase 4: Integration and Comprehensive Testing](#phase-4-integration-and-comprehensive-testing)
    - [Phase 5: Documentation and Deployment](#phase-5-documentation-and-deployment)
 5. [Code Structure](#code-structure)
-6. [Parameters and Configuration](#parameters-and-configuration)
+6. [Parameters and Configuration](#parameters-and-configuration) -->
+
+
+## 📌 Table of Contents
+- [Project Overview](docs/project_overview.md)
+- [Installation Guide](docs/installation.md)
+- [Usage Instructions](docs/usage.md)
+- [System Architecture & Design](docs/design.md)
+<!-- - [Troubleshooting](docs/troubleshooting.md) -->
 
 ---
-
-## Introduction
-
-Capturing high-resolution images that are precisely aligned with specific geographic coordinates is crucial for applications such as environmental monitoring, infrastructure inspection, and scientific data collection. GeoGimbal provides a robust solution for controlling a UAV's gimbal and camera to achieve this precision.
-
----
-
-## Project Overview
-
-### Why Geo-Specific Images?
-
-Geo-specific images are essential when:
-- **Precision Matters:** Tasks require data from exact geographic locations.
-- **Remote Monitoring:** Access to the area is limited or hazardous.
-- **Data Consistency:** Long-term projects need consistent data over time.
-
-### Project Goals
-- **Precise Gimbal Control:** Orient the UAV's gimbal towards specified RTK GNSS coordinates accurately.
-- **Modular Architecture:** Separate control logic from hardware-specific implementations for adaptability.
-- **System Identification:** Develop mathematical models to improve system accuracy through calibration.
-- **Robust Controller Design:** Implement controllers to handle system dynamics and sensor limitations.
-
-### Key Challenges
-- **Accurate Transformation:** Precise transformations accounting for offsets and dynamics.
-- **System Dynamics:** Managing UAV movement, latency, and sensor inaccuracies.
-- **Modularity:** Adapting the system for different hardware platforms.
-
----
-
-## System Architecture
-
-GeoGimbal consists of three primary components:
-
-### Controller
-- **Function:** Calculates gimbal angles to align the camera with target coordinates.
-- **Features:**
-  - Supports multiple control strategies (PID, LQR, predictive).
-  - Operates independently of hardware-specific details.
-
-### System Identification
-- **Function:** Calibrates and refines models mapping GNSS positions to gimbal commands.
-- **Features:**
-  - Uses visual markers (e.g., ArUco) for calibration.
-  - Updates Denavit-Hartenberg (D-H) parameters.
-
-### Interface
-- **Function:** Communicates with DJI hardware via `psdk_ros2`.
-- **Features:**
-  - Subscribes to UAV data topics.
-  - Publishes gimbal commands.
-  - Acts as a bridge between logic and hardware.
-
----
-
+<!-- 
 ## Project Phases and Completion Plan
 
 ### Phase 1: Initial Analytical Model and Proof of Concept
@@ -101,69 +59,5 @@ GeoGimbal consists of three primary components:
 
 ### Phase 5: Documentation and Deployment
 - Finalize documentation.
-- Prepare for deployment and maintenance.
+- Prepare for deployment and maintenance. -->
 
----
-# 5. Code Structure
-
-## Package Layout
-
-```plaintext
-geogimbal/
-├── geogimbal/
-│   ├── __init__.py                      # Indicates that this directory is a Python package
-│   ├── controller.py                    # Abstract base class for controllers
-│   ├── pid_controller.py                # PID controller implementation
-│   ├── lqr_controller.py                # LQR controller implementation
-│   ├── system_identification.py         # System identification and calibration logic
-│   ├── transformations.py               # Coordinate transformation utilities
-│   ├── psdk_interface.py                # Interface for psdk_ros2 communication
-│   ├── parameters.py                    # Parameter handling
-├── scripts/
-│   ├── geo_gimbal_control.py            # Main script for gimbal control
-│   ├── calibration_node.py              # Script for calibration routines
-│   ├── data_analysis.py                 # Scripts for analyzing logged data
-│   ├── calibration_tool.py              # Tool for calibrating and updating parameters
-├── launch/
-│   ├── geo_gimbal_control.launch.py     # Launch file for gimbal control node
-│   ├── calibration.launch.py            # Launch file for calibration node
-├── config/
-│   ├── parameters.yaml                  # YAML file for configurable parameters
-│   ├── calibration_parameters.yaml      # Parameters specific to calibration
-├── data/
-│   ├── calibration_data/                # Stored calibration datasets
-│   ├── logs/                            # Data logs from tests and runs
-├── setup.py                             # Build instructions for Python package
-├── package.xml                          # ROS 2 package metadata
-├── README.md                            # Project documentation
-
-```
----
-
-# 6. Parameters and Configuration
-## Parameters to be Saved
-
-- **Transformation Matrices**:
-  - Offsets and rotations from RTK-GNSS sensor to UAV center.
-  - From UAV center through the gimbal to the camera.
-- **D-H Parameters**:
-  - Kinematic chain parameters used in the model.
-- **Calibration Data**:
-  - Errors observed during system identification.
-  - Updated parameters after calibration.
-- **Controller Parameters**:
-  - Gains for PID controllers.
-  - Weight matrices for LQR controllers.
-  - Prediction horizons for predictive controllers.
-- **Sensor Data Logs**:
-  - RTK-GNSS readings.
-  - UAV pose and orientation.
-  - Gimbal joint angles.
-
-## Adjusting Parameters
-
-- Configurable via `config/parameters.yaml`.
-- Use for:
-  - Fine-tuning controller performance.
-  - Updating system models after calibration.
-  - Adjusting for different hardware configurations.
