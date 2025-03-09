@@ -122,9 +122,21 @@ ament_target_dependencies(geo_gimbal_main
 # -----------------------------------------------------------
 install(TARGETS
   geo_gimbal_main
-  geogimbal_lib
   DESTINATION lib/${PROJECT_NAME}
+  )
+
+install(TARGETS
+  geogimbal_lib
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
 )
+
+#install(TARGETS
+#  geo_gimbal_main
+#  geogimbal_lib
+#  DESTINATION lib/${PROJECT_NAME}
+#)
 
 # Install launch/config/data
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})

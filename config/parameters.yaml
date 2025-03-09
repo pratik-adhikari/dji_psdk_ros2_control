@@ -14,15 +14,13 @@ gimbal_transform_node:
     base_alt: 0.0
 
     # ----------------------------
-    # Topic & Service Names (MANDATORY) (From the wrapper)
+    # Topic & Service Names
     # ----------------------------
     gps_position_topic: "/wrapper/psdk_ros2/gps_position_fused"
     imu_topic: "/uav/imu/data"
     gimbal_center_topic: "/uav/gimbal_center_position"
 
-    # ----------------------------
-    # Gimbal Control Topics (created for the project)
-    # ----------------------------
+    # Gimbal Control Topics (optional, if you have a separate control node)
     gimbal_command_topic: "/wrapper/psdk_ros2/gimbal_rotation"
     set_target_service_name: "/geogimbal/set_target"
 
@@ -32,3 +30,11 @@ gimbal_transform_node:
     # If false => Just convert GPS to UTM & publish
     # ----------------------------
     apply_gimbal_transform: true
+
+    # ----------------------------
+    # TF Frame IDs (optional, can be overridden here)
+    # ----------------------------
+    map_frame_id: "map"
+    uav_base_frame_id: "uav_base_link"
+    imu_frame_id: "imu_link"
+    gimbal_frame_id: "gimbal_link"
