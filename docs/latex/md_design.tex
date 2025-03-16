@@ -1,0 +1,50 @@
+\hypertarget{md_design_autotoc_md0}{}\doxysection{System Architecture \& Design}\label{md_design_autotoc_md0}
+\hypertarget{md_design_autotoc_md1}{}\doxysubsection{🎛️ Controller Module}\label{md_design_autotoc_md1}
+
+\begin{DoxyItemize}
+\item Computes gimbal angles for {\bfseries{precise geo-\/targeting}}.
+\item Supports {\bfseries{PID, LQR, and predictive control}} strategies.
+\end{DoxyItemize}\hypertarget{md_design_autotoc_md2}{}\doxysubsection{🎯 System Identification}\label{md_design_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Uses {\bfseries{Ar\+Uco markers}} for real-\/world calibration.
+\item Updates {\bfseries{Denavit-\/\+Hartenberg (D-\/H) parameters}}.
+\end{DoxyItemize}\hypertarget{md_design_autotoc_md3}{}\doxysubsection{🔗 Interface with UAV (\+DJI Payload SDK)}\label{md_design_autotoc_md3}
+
+\begin{DoxyItemize}
+\item Communicates using {\bfseries{psdk\+\_\+ros2}}.
+\item Publishes/receives UAV telemetry and control commands.
+\end{DoxyItemize}\hypertarget{md_design_autotoc_md4}{}\doxysubsection{📂 Code Structure}\label{md_design_autotoc_md4}
+\hypertarget{md_design_autotoc_md5}{}\doxysubsection{Package Layout}\label{md_design_autotoc_md5}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{geogimbal/}
+\DoxyCodeLine{├── geogimbal/}
+\DoxyCodeLine{│   ├── \_\_init\_\_.py                      \# Indicates that this directory is a Python package}
+\DoxyCodeLine{│   ├── controller.py                    \# Abstract base class for controllers}
+\DoxyCodeLine{│   ├── pid\_controller.py                \# PID controller implementation}
+\DoxyCodeLine{│   ├── lqr\_controller.py                \# LQR controller implementation}
+\DoxyCodeLine{│   ├── system\_identification.py         \# System identification and calibration logic}
+\DoxyCodeLine{│   ├── transformations.py               \# Coordinate transformation utilities}
+\DoxyCodeLine{│   ├── psdk\_interface.py                \# Interface for psdk\_ros2 communication}
+\DoxyCodeLine{│   ├── parameters.py                    \# Parameter handling}
+\DoxyCodeLine{├── scripts/}
+\DoxyCodeLine{│   ├── geo\_gimbal\_control.py            \# Main script for gimbal control}
+\DoxyCodeLine{│   ├── calibration\_node.py              \# Script for calibration routines}
+\DoxyCodeLine{│   ├── data\_analysis.py                 \# Scripts for analyzing logged data}
+\DoxyCodeLine{│   ├── calibration\_tool.py              \# Tool for calibrating and updating parameters}
+\DoxyCodeLine{├── launch/}
+\DoxyCodeLine{│   ├── geo\_gimbal\_control.launch.py     \# Launch file for gimbal control node}
+\DoxyCodeLine{│   ├── calibration.launch.py            \# Launch file for calibration node}
+\DoxyCodeLine{├── config/}
+\DoxyCodeLine{│   ├── parameters.yaml                  \# YAML file for configurable parameters}
+\DoxyCodeLine{│   ├── calibration\_parameters.yaml      \# Parameters specific to calibration}
+\DoxyCodeLine{├── data/}
+\DoxyCodeLine{│   ├── calibration\_data/                \# Stored calibration datasets}
+\DoxyCodeLine{│   ├── logs/                            \# Data logs from tests and runs}
+\DoxyCodeLine{├── setup.py                             \# Build instructions for Python package}
+\DoxyCodeLine{├── package.xml                          \# ROS 2 package metadata}
+\DoxyCodeLine{├── README.md                            \# Project documentation}
+
+\end{DoxyCode}
+ 

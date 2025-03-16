@@ -1,0 +1,23 @@
+\hypertarget{md_project_overview_autotoc_md10}{}\doxysection{Project Overview}\label{md_project_overview_autotoc_md10}
+\hypertarget{md_project_overview_autotoc_md11}{}\doxysubsection{🎯 Why Geo-\/\+Specific Images?}\label{md_project_overview_autotoc_md11}
+Geo-\/specific images are useful for\+:
+\begin{DoxyItemize}
+\item {\bfseries{Precision Data Collection}}\+: Ensures accurate geo-\/referenced images.
+\item {\bfseries{Remote Monitoring}}\+: Ideal for inaccessible locations.
+\item {\bfseries{Consistency in Analysis}}\+: Critical for scientific and environmental studies.
+\end{DoxyItemize}\hypertarget{md_project_overview_autotoc_md12}{}\doxysubsection{🎯 Project Goals}\label{md_project_overview_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{Accurate Gimbal Control}}\+: Align the UAV’s gimbal with RTK-\/\+GNSS coordinates.
+\item {\bfseries{Modular Software Design}}\+: Independent control logic from hardware-\/specific communication.
+\item {\bfseries{System Identification}}\+: Calibrate and refine coordinate transformations.
+\item {\bfseries{Robust Controllers}}\+: Implement {\bfseries{PID}}, {\bfseries{LQR}}, and {\bfseries{predictive control}}.
+\end{DoxyItemize}\hypertarget{md_project_overview_autotoc_md13}{}\doxysubsection{⚡ Key Challenges}\label{md_project_overview_autotoc_md13}
+
+\begin{DoxyItemize}
+\item {\bfseries{Transformation Accuracy}}\+: Converting GNSS data into gimbal commands.
+\item {\bfseries{UAV Movement \& Latency}}\+: Real-\/time corrections to avoid drift.
+\item {\bfseries{Hardware Modularity}}\+: Adapting to different UAV gimbal systems.
+\end{DoxyItemize}
+
+For technical details, see {\bfseries{\mbox{\hyperlink{md_design}{System Architecture}}}}. 

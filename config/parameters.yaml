@@ -18,7 +18,7 @@ gimbal_transform_node:
     # ----------------------------
     gps_position_topic: "/wrapper/psdk_ros2/gps_position_fused"
     imu_topic: "/uav/imu/data"
-    gimbal_center_topic: "/uav/gimbal_center_position"
+    gimbal_center_topic: "/geogimbal/uav/gimbal_center_position"
 
     # Gimbal Control Topics (optional, if you have a separate control node)
     gimbal_command_topic: "/wrapper/psdk_ros2/gimbal_rotation"
