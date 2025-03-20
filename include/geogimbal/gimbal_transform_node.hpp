@@ -34,10 +34,10 @@
  };
  
  /**
-  * @struct Coordinate
+  * @struct LocalCoordinate
   * @brief A simple struct holding x, y, z coordinates, used for local transformations.
   */
- struct Coordinate
+ struct LocalCoordinate
  {
    double x;
    double y;
@@ -181,9 +181,9 @@
     * @param lat Latitude in degrees
     * @param lon Longitude in degrees
     * @param alt Altitude in meters
-    * @return A Coordinate struct containing x,y,z in the local or UTM frame.
+    * @return A LocalCoordinate struct containing x,y,z in the local or UTM frame.
     */
-   Coordinate wgs84ToFrame(double lat, double lon, double alt);
+   LocalCoordinate wgs84ToFrame(double lat, double lon, double alt);
  
    /**
     * @brief Build the final 4x4 transformation matrix from the loaded DH chain.

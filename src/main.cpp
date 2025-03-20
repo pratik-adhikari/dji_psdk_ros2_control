@@ -1,167 +1,183 @@
-// #include <rclcpp/rclcpp.hpp>
-// #include <fstream>
-// #include <sstream>
-// #include <vector>
-// #include "geogimbal/geo_gimbal_control.hpp"
-// #include "geogimbal/gimbal_transform_node.hpp"
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/nav_sat_fix.hpp>
+#include <psdk_interfaces/msg/gimbal_rotation.hpp>
+#include <chrono>
+#include <cmath>
+#include <memory>
+#include <string>
+#include "geogimbal/geo_gimbal_control.hpp"
 
-// /**
-//  * @file main.cpp
-//  * @brief Entry point for running the gimbal transformation and control nodes in a ROS2 environment.
-//  */
-
-// /**
-//  * @struct TargetXYZ
-//  * @brief Stores target coordinates (x, y, z) for gimbal tracking.
-//  */
-// struct TargetXYZ {
-//     double x, y, z;
-// };
-
-// /**
-//  * @brief Main function initializing ROS2 nodes and reading target positions from a CSV file.
-//  *
-//  * Initializes the ROS2 system, sets up the GimbalTransformNode and GeoGimbalControl nodes,
-//  * and reads target positions from a CSV file to set the first available target.
-//  *
-//  * @param argc Argument count.
-//  * @param argv Argument values.
-//  * @return Execution status code.
-//  */
-// int main(int argc, char** argv)
-// {
-//     rclcpp::init(argc, argv);
-
-//     // Create an executor
-//     auto exec = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
-
-//     // Create our nodes
-//     auto transformNode = std::make_shared<GimbalTransformNode>();
-//     auto gimbalControl = std::make_shared<GeoGimbalControl>();
-
-//     // Add them to the executor
-//     exec->add_node(transformNode);
-//     exec->add_node(gimbalControl);
-
-//     // Read CSV file for target locations
-//     std::string csv_path = "data/target_locations.csv";
-//     std::ifstream file(csv_path);
-//     std::vector<TargetXYZ> targets;
-//     if (file.is_open()) {
-//         std::string line;
-//         while (std::getline(file, line)) {
-//             if (line.empty() || line[0] == '#') // Ignore empty lines and comments
-//                 continue;
-//             std::stringstream ss(line);
-//             double x, y, z;
-//             if (!(ss >> x)) break;
-//             if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
-//             if (!(ss >> y)) break;
-//             if (ss.peek() == ',' || ss.peek() == ' ') ss.ignore();
-//             if (!(ss >> z)) z = 0.0; // Default to zero if no z value provided
-//             targets.push_back({x, y, z});
-//         }
-//         file.close();
-//     }
-
-//     // Set the first available target for the gimbal control node
-//     if (!targets.empty()) {
-//         TargetLocation t{targets[0].x, targets[0].y, targets[0].z};
-//         gimbalControl->set_target(t);
-//     }
-
-//     RCLCPP_INFO(rclcpp::get_logger("main"), "Spinning with transformNode & gimbalControl...");
-//     exec->spin();
-
-//     rclcpp::shutdown();
-//     return 0;
-// }
-// #include <iostream>
-// #include "geogimbal/coordinate_transformer.hpp"
-
-// int main() {
-//     CoordinateTransformer transformer;
-    
-//     // Example: Setup for WGS84 UTM zone 15N
-//     // If you want 32N (EPSG:25832 or EPSG:32632 for WGS84), pass zone=32, northern=true
-//     transformer.setup(FrameType::UTM, 15, true, 0.0, 0.0, 0.0);
-    
-//     // Test #1: WGS84 -> UTM
-//     // We'll treat inWgs as (longitude=-93, latitude=42, altitude=300)
-//     Coordinate input_wgs;
-//     input_wgs.longitude = -93.0;
-//     input_wgs.latitude  =  42.0;
-//     input_wgs.altitude  = 300.0;
-    
-//     Coordinate output_utm;
-//     transformer.wgs84ToFrame(input_wgs, output_utm);
-
-//     std::cout << "WGS84 to UTM (Zone 15N) results:\n";
-//     std::cout << "  Easting:  " << output_utm.longitude << "\n";
-//     std::cout << "  Northing: " << output_utm.latitude  << "\n";
-//     std::cout << "  Altitude: " << output_utm.altitude  << "\n";
-
-//     // // Test #2: UTM -> WGS84
-//     // Coordinate input_utm;
-//     // input_utm.longitude = 500000.0;   // easting
-//     // input_utm.latitude  = 4649776.0;  // northing
-//     // input_utm.altitude  = 250.0;
-
-//     // Coordinate output_wgs;
-//     // transformer.frameToWgs84(input_utm, output_wgs);
-
-//     // std::cout << "UTM to WGS84 results:\n";
-//     // std::cout << "  Longitude: " << output_wgs.longitude << "\n";
-//     // std::cout << "  Latitude:  " << output_wgs.latitude  << "\n";
-//     // std::cout << "  Altitude:  " << output_wgs.altitude  << "\n";
-
-//     // Test #3: UTM -> WGS84
-//     Coordinate input_utm;
-//     input_utm.longitude = 433269.117;   // easting
-//     input_utm.latitude  = 5699714.136;  // northing
-//     input_utm.altitude  = 0.0;
-
-//     Coordinate output_wgs;
-//     transformer.frameToWgs84(input_utm, output_wgs);
-
-//     std::cout << "UTM to WGS84 results:\n";
-//     std::cout << "  Longitude: " << output_wgs.longitude << "\n";
-//     std::cout << "  Latitude:  " << output_wgs.latitude  << "\n";
-//     std::cout << "  Altitude:  " << output_wgs.altitude  << "\n";
-    
-//     return 0;
-// }
 /**
- * @file main.cpp
- * @brief An example ROS2 entry point that loads parameters and runs GimbalTransformNode.
+ * @class GimbalOrchestrator
+ * @brief
+ *   - Subscribes to /gps/aruco => sets target in GeoGimbalControl
+ *   - Subscribes to /gps/camera => computes angles => publishes /geogimbal/rotation_cmd
+ *   - Logs everything, including when no data arrives, via a watchdog timer
  */
- #include <ament_index_cpp/get_package_share_directory.hpp>
- #include <rclcpp/rclcpp.hpp>
- #include "geogimbal/gimbal_transform_node.hpp" // or your actual header
- 
- int main(int argc, char** argv)
- {
-     rclcpp::init(argc, argv);
- 
-     // Retrieve the installed config path
-     std::string share_dir = ament_index_cpp::get_package_share_directory("geogimbal");
-     std::string params_path = share_dir + "/config/parameters.yaml";
- 
-     // NodeOptions with path to installed parameters file
-     rclcpp::NodeOptions options;
-     options.arguments({
-       "--ros-args",
-       "--params-file", params_path
-     });
- 
-     auto executor = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
-     auto gimbalNode = std::make_shared<GimbalTransformNode>(options);
-     executor->add_node(gimbalNode);
- 
-     RCLCPP_INFO(rclcpp::get_logger("main"), "Spinning GimbalTransformNode...");
-     executor->spin();
- 
-     rclcpp::shutdown();
-     return 0;
- }
- 
+class GimbalOrchestrator : public rclcpp::Node
+{
+public:
+  GimbalOrchestrator(const rclcpp::NodeOptions &options = rclcpp::NodeOptions())
+  : Node("gimbal_orchestrator", options),
+    aruco_count_(0),
+    camera_count_(0)
+  {
+    gimbal_control_ = std::make_shared<GeoGimbalControl>();
+
+    cmd_pub_ = create_publisher<psdk_interfaces::msg::GimbalRotation>(
+      "/geogimbal/rotation_cmd", 10);
+
+    // Subscribe to /gps/aruco
+    aruco_sub_ = create_subscription<sensor_msgs::msg::NavSatFix>(
+      "/gps/aruco",
+      10,
+      [this](const sensor_msgs::msg::NavSatFix::SharedPtr msg)
+      {
+        aruco_count_++;
+        last_aruco_time_ = now();
+        RCLCPP_INFO(this->get_logger(),
+          "[ArucoCB] Received #%ld => lat=%.6f, lon=%.6f, alt=%.2f",
+          aruco_count_, msg->latitude, msg->longitude, msg->altitude);
+
+        if (!std::isfinite(msg->latitude) ||
+            !std::isfinite(msg->longitude) ||
+            !std::isfinite(msg->altitude))
+        {
+          RCLCPP_WARN(this->get_logger(), "[ArucoCB] Invalid data, skipping set_target.");
+          return;
+        }
+
+        TargetLocation t;
+        t.x = msg->longitude;  // or transform
+        t.y = msg->latitude;
+        t.z = msg->altitude;
+
+        gimbal_control_->set_target(t);
+      }
+    );
+
+    // Subscribe to /gps/camera
+    camera_sub_ = create_subscription<sensor_msgs::msg::NavSatFix>(
+      "/gps/camera",
+      10,
+      [this](const sensor_msgs::msg::NavSatFix::SharedPtr msg)
+      {
+        camera_count_++;
+        last_camera_time_ = now();
+        RCLCPP_INFO(this->get_logger(),
+          "[CameraCB] Received #%ld => lat=%.6f, lon=%.6f, alt=%.2f",
+          camera_count_, msg->latitude, msg->longitude, msg->altitude);
+
+        if (!std::isfinite(msg->latitude) ||
+            !std::isfinite(msg->longitude) ||
+            !std::isfinite(msg->altitude))
+        {
+          RCLCPP_WARN(this->get_logger(), "[CameraCB] Invalid data, skipping angle compute.");
+          return;
+        }
+
+        double cx = msg->longitude;
+        double cy = msg->latitude;
+        double cz = msg->altitude;
+
+        // Try to compute angles
+        try {
+          auto cmd = gimbal_control_->computeCommandFromCenter(cx, cy, cz);
+
+          double pitch_deg = cmd.pitch * 180.0 / M_PI;
+          double yaw_deg   = cmd.yaw   * 180.0 / M_PI;
+
+          RCLCPP_INFO(this->get_logger(),
+            "[CameraCB] GimbalRotation => pitch=%.1f deg, yaw=%.1f deg. Publishing => /geogimbal/rotation_cmd",
+            pitch_deg, yaw_deg
+          );
+          cmd_pub_->publish(cmd);
+        }
+        catch(const std::exception &e) {
+          // e.g. no target set
+          RCLCPP_ERROR(this->get_logger(),
+            "[CameraCB] Error computing gimbal command: %s", e.what());
+        }
+      }
+    );
+
+    // Watchdog + Heartbeat: checks every 3s if we have data or if it's stale
+    watchdog_timer_ = create_wall_timer(
+      std::chrono::seconds(3),
+      std::bind(&GimbalOrchestrator::watchdogCallback, this)
+    );
+  }
+
+private:
+  void watchdogCallback()
+  {
+    // 1) Heartbeat
+    RCLCPP_INFO(this->get_logger(),
+      "Orchestrator Watchdog: so far => /gps/aruco msgs=%ld, /gps/camera msgs=%ld",
+      aruco_count_, camera_count_
+    );
+
+    // Current time
+    auto now_t = now();
+
+    // 2) Check time since last aruco
+    if (aruco_count_ == 0) {
+      RCLCPP_WARN(this->get_logger(),
+        "No /gps/aruco messages have EVER arrived. Possibly no ArUco tracking data is published?");
+    } else {
+      rclcpp::Duration delta = now_t - last_aruco_time_;
+      // Convert nanoseconds -> milliseconds
+      double ms = static_cast<double>(delta.nanoseconds()) / 1.0e6; // 1e6 => ms
+      if (ms > 5000.0) { // 5000 ms => 5 seconds
+        RCLCPP_WARN(this->get_logger(),
+          "/gps/aruco is stale, last message was %.2f seconds ago.",
+          ms / 1000.0
+        );
+      }
+    }
+
+    // 3) Check time since last camera
+    if (camera_count_ == 0) {
+      RCLCPP_WARN(this->get_logger(),
+        "No /gps/camera messages have EVER arrived. Possibly no camera GPS is published?");
+    } else {
+      rclcpp::Duration delta = now_t - last_camera_time_;
+      double ms = static_cast<double>(delta.nanoseconds()) / 1.0e6;
+      if (ms > 5000.0) {
+        RCLCPP_WARN(this->get_logger(),
+          "/gps/camera is stale, last message was %.2f seconds ago.",
+          ms / 1000.0
+        );
+      }
+    }
+  }
+
+
+  // Logic-only instance
+  std::shared_ptr<GeoGimbalControl> gimbal_control_;
+
+  // Subscriptions
+  rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr aruco_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr camera_sub_;
+
+  // Publisher
+  rclcpp::Publisher<psdk_interfaces::msg::GimbalRotation>::SharedPtr cmd_pub_;
+
+  // Watchdog
+  rclcpp::TimerBase::SharedPtr watchdog_timer_;
+
+  // Counters & Timestamps
+  size_t aruco_count_;
+  size_t camera_count_;
+  rclcpp::Time last_aruco_time_;
+  rclcpp::Time last_camera_time_;
+};
+
+int main(int argc, char** argv)
+{
+  rclcpp::init(argc, argv);
+  auto node = std::make_shared<GimbalOrchestrator>();
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+  return 0;
+}

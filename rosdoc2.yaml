@@ -1,0 +1,23 @@
+---
+version: 2
+---
+
+# ROS 2 documentation configuration file
+
+format: xml
+output_dir: docs/_build
+
+builders:
+  - doxygen
+  - sphinx
+
+exclude_paths:
+  - docs/_build  # Prevents processing already built documentation
+
+sphinx:
+  conf_dir: docs
+  source_dir: docs
+  output_dir: docs/_build/sphinx
+
+doxygen:
+  config_file: docs/Doxyfile  # Uses an existing Doxygen configuration file

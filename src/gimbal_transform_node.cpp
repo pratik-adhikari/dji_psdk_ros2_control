@@ -257,7 +257,7 @@
    }
  
    // 2) Convert WGS84 -> local or UTM
-   Coordinate c = wgs84ToFrame(msg->latitude, msg->longitude, msg->altitude);
+   LocalCoordinate c = wgs84ToFrame(msg->latitude, msg->longitude, msg->altitude);
    uav_x_ = c.x; 
    uav_y_ = c.y; 
    uav_z_ = c.z;
@@ -320,12 +320,12 @@
  /* -------------------------------------------------------------------------
   * wgs84ToFrame()
   * ------------------------------------------------------------------------- */
- Coordinate GimbalTransformNode::wgs84ToFrame(double lat, double lon, double alt)
+  LocalCoordinate GimbalTransformNode::wgs84ToFrame(double lat, double lon, double alt)
  {
    // Naive example: 1 degree ~ 111319.9 m at Equator.
    // Replace with real code if needed (e.g. PROJ for UTM).
    double scale = 111319.9;
-   Coordinate c;
+   LocalCoordinate c;
  
    if (coordinate_frame_ == "UTM")
    {

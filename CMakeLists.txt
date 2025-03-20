@@ -51,6 +51,7 @@ add_library(geogimbal_lib SHARED
   src/coordinate_transformer.cpp
   src/geo_gimbal_control.cpp
   src/gimbal_transform_node.cpp
+  src/bridge.cpp
 )
 
 target_include_directories(geogimbal_lib

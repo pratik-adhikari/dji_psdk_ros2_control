@@ -1,3 +1,9 @@
+main_orchestrator:
+  ros__parameters:
+    # The "flag" that decides whether we create the bridging node
+    gazebo_sim: true
+    aruco_gps_topic: "/gps/aruco"
+
 gimbal_transform_node:
   ros__parameters:
 
@@ -18,7 +24,8 @@ gimbal_transform_node:
     # ----------------------------
     gps_position_topic: "/wrapper/psdk_ros2/gps_position_fused"
     imu_topic: "/uav/imu/data"
-    gimbal_center_topic: "/geogimbal/uav/gimbal_center_position"
+    # gimbal_center_topic: "/geogimbal/uav/gimbal_center_position"
+    gimbal_center_topic: "/gps/camera" 
 
     # Gimbal Control Topics (optional, if you have a separate control node)
     gimbal_command_topic: "/wrapper/psdk_ros2/gimbal_rotation"
@@ -38,3 +45,17 @@ gimbal_transform_node:
     uav_base_frame_id: "uav_base_link"
     imu_frame_id: "imu_link"
     gimbal_frame_id: "gimbal_link"
+
+
+geo_gimbal_control:
+  ros__parameters:
+    gimbal_center_topic: "/geogimbal/uav/gimbal_center_position"
+    gimbal_command_topic: "/wrapper/psdk_ros2/gimbal_rotation"
+
+gimbal_sim_bridge:
+  ros__parameters:
+    # If bridging node is launched, it will read these:
+    psdk_command_topic: "/wrapper/psdk_ros2/gimbal_rotation"
+    pitch_topic:        "/model/x500_gimbal/command/gimbal_pitch"
+    roll_topic:         "/model/x500_gimbal/command/gimbal_roll"
+    yaw_topic:          "/model/x500_gimbal/command/gimbal_yaw"
