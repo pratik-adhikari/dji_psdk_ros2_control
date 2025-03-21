@@ -1,0 +1,5 @@
+<map id="as2_platform_dji_psdk/include/as2_platform_dji_psdk/as2_platform_dji_psdk.hpp" name="as2_platform_dji_psdk/include/as2_platform_dji_psdk/as2_platform_dji_psdk.hpp">
+<area shape="rect" id="node1" title="DJI PSDK platform definition." alt="" coords="99,5,273,76"/>
+<area shape="rect" id="node2" href="$as2__platform__dji__psdk_8cpp.html" title="DJI PSDK platform implementation." alt="" coords="5,124,175,180"/>
+<area shape="rect" id="node3" href="$as2__platform__dji__psdk__node_8cpp.html" title="DJI PSDK platform ROS 2 node." alt="" coords="199,124,368,180"/>
+</map>

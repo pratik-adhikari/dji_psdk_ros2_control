@@ -1,0 +1,5 @@
+<map id="geogimbal/include/geogimbal/coordinate_transformer.hpp" name="geogimbal/include/geogimbal/coordinate_transformer.hpp">
+<area shape="rect" id="node1" title="Defines a class that can transform WGS84 lat/lon to either UTM or a local origin frame,..." alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="42,95,101,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="125,95,183,121"/>
+</map>

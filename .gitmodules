@@ -1,0 +1,9 @@
+[submodule "src/dji_psdk_ros2_control/as2_platform_dji_psdk"]
+	path = src/dji_psdk_ros2_control/as2_platform_dji_psdk
+	url = https://github.com/aerostack2/as2_platform_dji_psdk.git
+[submodule "as2_platform_dji_psdk"]
+	path = as2_platform_dji_psdk
+	url = https://github.com/aerostack2/as2_platform_dji_psdk.git
+[submodule "apriltag_ros"]
+	path = apriltag_ros
+	url = https://github.com/christianrauch/apriltag_ros.git

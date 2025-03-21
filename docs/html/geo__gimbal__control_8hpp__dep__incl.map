@@ -1,0 +1,4 @@
+<map id="geogimbal/include/geogimbal/geo_gimbal_control.hpp" name="geogimbal/include/geogimbal/geo_gimbal_control.hpp">
+<area shape="rect" id="node1" title="A node that subscribes to a gimbal center topic, stores a target in the same frame,..." alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node2" href="$geo__gimbal__control_8cpp.html" title="Implementation of GeoGimbalControl, storing a target and publishing pitch/yaw commands." alt="" coords="15,95,210,136"/>
+</map>

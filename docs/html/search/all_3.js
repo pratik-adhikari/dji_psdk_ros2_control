@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['📜_20_2a_2a_3ctt_3edocs_2fproject_5foverview_2emd_3c_2ftt_3e_2a_2a_3',['📜 **&lt;tt&gt;docs/project_overview.md&lt;/tt&gt;**',['../md_project_overview.html',1,'']]]
+  ['frametowgs84_15',['frameToWgs84',['../classCoordinateTransformer.html#a07219c23feb4b7f99764ba5deec5f315',1,'CoordinateTransformer']]],
+  ['frametype_16',['FrameType',['../coordinate__transformer_8hpp.html#ad495a9f61af7fff07d7e97979d1ab854',1,'coordinate_transformer.hpp']]]
 ];

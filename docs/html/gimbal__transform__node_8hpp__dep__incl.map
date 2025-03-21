@@ -1,0 +1,5 @@
+<map id="geogimbal/include/geogimbal/gimbal_transform_node.hpp" name="geogimbal/include/geogimbal/gimbal_transform_node.hpp">
+<area shape="rect" id="node1" title="Declarations for GimbalTransformNode, a ROS2 node that: 1) Converts UAV GPS (WGS84) to UTM or LOCAL,..." alt="" coords="77,5,291,47"/>
+<area shape="rect" id="node2" href="$gimbal__transform__node_8cpp.html" title="Example of a ROS2 node that uses TF2, parameters.yaml, and transform_config.yaml to publish a gimbal ..." alt="" coords="5,95,168,136"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="An example ROS2 entry point that loads parameters and runs GimbalTransformNode." alt="" coords="192,102,371,129"/>
+</map>

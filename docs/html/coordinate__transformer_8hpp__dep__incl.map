@@ -1,0 +1,4 @@
+<map id="geogimbal/include/geogimbal/coordinate_transformer.hpp" name="geogimbal/include/geogimbal/coordinate_transformer.hpp">
+<area shape="rect" id="node1" title="Defines a class that can transform WGS84 lat/lon to either UTM or a local origin frame,..." alt="" coords="5,5,220,47"/>
+<area shape="rect" id="node2" href="$coordinate__transformer_8cpp.html" title="Converts GPS coordinates (WGS84) to a target frame (UTM or LOCAL) and vice versa." alt="" coords="19,95,206,136"/>
+</map>
