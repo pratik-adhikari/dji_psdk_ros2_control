@@ -17,3 +17,6 @@
 [submodule "project_gazebo"]
     path = project_gazebo
     url = https://github.com/pratik-adhikari/project_gazebo.git
+[submodule "project_dji_psdk"]
+	path = project_dji_psdk
+	url = https://github.com/pratik-adhikari/project_dji_psdk.git
